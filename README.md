@@ -13,10 +13,8 @@ $ npm start
 
 # build docs
 $ npm run build
-```
 
 # deploy
-
 $ npm run deploy
 
 ```
@@ -24,4 +22,3 @@ $ npm run deploy
 ## LICENSE
 
 MIT
-```

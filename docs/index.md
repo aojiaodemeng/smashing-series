@@ -1,7 +1,7 @@
 ---
 title: Smashing Series
 hero:
-  title: Smashing Series
+  title: Smashing Series1
   description: Some smashing study notes
   actions:
     - text: Read More

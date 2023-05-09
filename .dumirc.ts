@@ -11,7 +11,10 @@ export default defineConfig({
   themeConfig: {
     name: 'Smashing Series',
     logo: isProd ? `/${repo}/logo.png` : `/logo.png`,
-    favicons: [isProd ? `/${repo}/favicon.ico` : `/favicon.ico`],
+    favicon: isProd ? `/${repo}/favicon.ico` : `/favicon.ico`,
+    favicons: [
+      isProd ? `/smashing-series/favicon.ico` : `/smashing-series/favicon.ico`,
+    ],
     nav: [],
     socialLinks: {
       github: 'https://github.com/aojiaodemeng/smashing-series',
