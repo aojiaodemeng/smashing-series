@@ -15,6 +15,13 @@ $ npm start
 $ npm run build
 ```
 
+# deploy
+
+$ npm run deploy
+
+```
+
 ## LICENSE
 
 MIT
+```
