@@ -1,16 +1,16 @@
 ---
 title: Smashing Series
 hero:
-  title: Smashing Series1
+  title: Smashing Series2
   description: Some smashing study notes
   actions:
     - text: Read More
       link: /react
 features:
-  - title: React
+  - title: 前端进阶1
     link: /react/index
     description: Put hello description here
-  - title: 算法
+  - title: Algorithm
     link: /algorithm
     description: Put world description here
   - title: Algorithm
