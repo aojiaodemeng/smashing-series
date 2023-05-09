@@ -1,23 +1,22 @@
 ---
-title: A static site based on dumi
+title: Smashing Series
 hero:
-  title: Site
-  description: A static site based on dumi
+  title: Smashing Series
+  description: Some smashing study notes
   actions:
-    - text: Hello
-      link: /
-    - text: World
-      link: /
+    - text: Read More
+      link: /react
 features:
-  - title: Hello
-    emoji: 💎
+  - title: React
+    link: /react/index
     description: Put hello description here
-  - title: World
-    emoji: 🌈
+  - title: 算法
+    link: /algorithm
     description: Put world description here
-  - title: '!'
-    emoji: 🚀
-    description: Put ! description here
+  - title: Algorithm
+    link: /algorithm
+    description: Put world description here
+  - title: Learning English
+    link: /english
+    description: Some words
 ---
-
-smashing-series

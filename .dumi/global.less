@@ -1,0 +1,59 @@
+.dumi-default-hero-title {
+  font-size: 78px !important;
+  & > span {
+    color: #000 !important;
+    text-shadow: none !important;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    @{dark-selector} & {
+      color: #fff !important;
+    }
+  }
+}
+
+.dumi-default-hero-actions > a:first-child {
+  background: linear-gradient(140deg, #8a8de8, #c1a5dc, #f8bdce) !important;
+}
+
+.dumi-default-header-left {
+  width: 260px !important;
+}
+
+.dumi-default-features-item {
+  border-radius: 12px;
+  box-sizing: border-box;
+  padding: 10px;
+  background: rgba(193, 165, 220, 18%) !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+    0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s;
+
+  &:hover {
+    box-shadow: 0 1px 7px -5px rgba(50, 50, 93, 0.25),
+      0 3px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 3%);
+  }
+
+  h3 {
+    font-family: Mija;
+    padding: 10px 0;
+    font-size: calc(18px + 1.1vw) !important;
+    font-weight: bold !important;
+
+    a {
+      text-decoration-line: underline !important;
+      text-decoration-skip-ink: auto;
+      text-decoration-thickness: 1px !important;
+      text-underline-offset: 1px;
+      background: linear-gradient(30deg, #8a8de8, #c1a5dc, #f8bdce) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      color: transparent !important;
+      text-decoration-color: #c1a5dc !important;
+    }
+  }
+}
+.dumi-default-features-item {
+  margin-bottom: 40px !important;
+}
