@@ -1,22 +1,26 @@
 ---
 title: Smashing Series
 hero:
-  title: Smashing Series2
+  title: Smashing Series
   description: Some smashing study notes
   actions:
     - text: Read More
       link: /react
 features:
-  - title: 前端进阶1
-    link: /react/index
+  - title: Babel
+    emoji: 🥝
+    link: /babel
     description: Put hello description here
   - title: Algorithm
-    link: /algorithm
+    emoji: 🍔
+    link: /algorithm/complexity
     description: Put world description here
-  - title: Algorithm
-    link: /algorithm
-    description: Put world description here
-  - title: Learning English
-    link: /english
-    description: Some words
+  - title: Technical Cheatsheet #Technical Interview Cheatsheet
+    emoji: ✏️
+    link: /cheatsheet/es
+    description: The blogger is lazy, no description here.
+  - title: Full Stack(Gin+Gorm+React)
+    emoji: 🫘
+    link: /full-stack
+    description: Go over how to build a full stack application using Gin and Mysql.
 ---

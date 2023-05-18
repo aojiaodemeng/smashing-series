@@ -1,3 +1,10 @@
+.dumi-default-header-content,
+.dumi-default-doc-layout > main {
+  max-width: 1600px !important;
+}
+.dumi-default-sidebar {
+  width: 250px !important;
+}
 .dumi-default-hero-title {
   font-size: 78px !important;
   & > span {
@@ -56,4 +63,19 @@
 }
 .dumi-default-features-item {
   margin-bottom: 40px !important;
+}
+
+.dumi-default-footer a {
+  color: #8a8de8 !important;
+}
+
+// 文字颜色
+.markdown h1,
+.markdown h2,
+.dumi-default-sidebar > dl > dd > a.active {
+  display: inline-block;
+  background: linear-gradient(30deg, #8a8de8, #c1a5dc, #f8bdce) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
 }

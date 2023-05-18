@@ -23,6 +23,48 @@ export default defineConfig({
           children: [{ title: '标题1', link: '/react/index' }],
         },
       ],
+      '/babel': [
+        {
+          title: 'Basic Info',
+          children: [{ title: 'What is Babel?', link: '/babel' }],
+        },
+        {
+          title: 'Plus',
+          children: [{ title: 'English Words', link: '/babel/words' }],
+        },
+      ],
+      '/full-stack': [
+        {
+          title: 'Backend',
+          children: [
+            { title: 'Start', link: '/full-stack' },
+            { title: 'Config Mysql and Gorm', link: '/full-stack/mysql' },
+          ],
+        },
+      ],
+      '/cheatsheet': [
+        {
+          title: 'FE Cheatsheet',
+          children: [
+            { title: 'ECMAScript', link: '/cheatsheet/es' },
+            { title: 'JavaScript', link: '/cheatsheet/js' },
+            { title: 'TypeScript', link: '/cheatsheet/ts' },
+            { title: 'ReactJs', link: '/cheatsheet/react' },
+            { title: 'VueJs', link: '/cheatsheet/vue' },
+            { title: 'English Words Map', link: '/cheatsheet/words' },
+          ],
+        },
+      ],
+      '/algorithm': [
+        {
+          title: '算法',
+          children: [
+            { title: '复杂度', link: '/algorithm/complexity' },
+            { title: '比较器', link: '/algorithm/comparator' },
+            { title: '异或(Exclusive or, XOR)', link: '/algorithm/xor' },
+          ],
+        },
+      ],
     },
   },
 });
