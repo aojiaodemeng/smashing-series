@@ -23,14 +23,25 @@ export default defineConfig({
           children: [{ title: '标题1', link: '/react/index' }],
         },
       ],
-      '/babel': [
+      '/flutter': [
         {
-          title: 'Basic Info',
-          children: [{ title: 'What is Babel?', link: '/babel' }],
+          title: '引言',
+          children: [{ title: '介绍', link: '/flutter/basic' }],
         },
         {
-          title: 'Plus',
-          children: [{ title: 'English Words', link: '/babel/words' }],
+          title: '基础知识',
+          children: [
+            { title: '枚举', link: '/flutter/enum' },
+            { title: '面向对象编程', link: '/flutter/oop' },
+          ],
+        },
+        // {
+        //   title: 'UI组件篇',
+        //   children: [{ title: '枚举', link: '/flutter/enum' }],
+        // },
+        {
+          title: '常用库',
+          children: [{ title: 'Dio', link: '/flutter/dio' }],
         },
       ],
       '/full-stack': [
@@ -48,6 +59,8 @@ export default defineConfig({
           children: [
             { title: 'ECMAScript', link: '/cheatsheet/es' },
             { title: 'JavaScript', link: '/cheatsheet/js' },
+            { title: 'Asynchronous Programming', link: '/cheatsheet/ap' },
+            { title: 'Functional Programming', link: '/cheatsheet/fp' },
             { title: 'TypeScript', link: '/cheatsheet/ts' },
             { title: 'ReactJs', link: '/cheatsheet/react' },
             { title: 'VueJs', link: '/cheatsheet/vue' },

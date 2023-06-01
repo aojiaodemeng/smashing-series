@@ -137,12 +137,12 @@ console.log(Reflect.deleteProperty(obj, 'name'))
 console.log(Reflect.ownKeys(obj))
 ```
 
-## for...of
+## for...of and Iterator
 
 There are lots of method of walking through array in ECMAScript:
 
 - `for`: is suited for common array.
-- `for...in`: is suited for key-value pairs.
+- `for...in`: is suited for key-value pairs. such as array、object.
 - `forEach` and other traversal methods.
 
 for example:
@@ -156,13 +156,137 @@ for (let i in arr) {
 
 var person = { fname: 'John', lname: 'Doe', age: 25 };
 for (let item in person) {
-  console.log(item, person[item]); // 输出fname John，lname Doe，age 25
+  console.log(item, person[item]); // print out:fname John，lname Doe，age 25
 }
 ```
 
-## 手写一个 Object.entries
+### for...of
 
-## 手写一个 Promise.all
+All of the above traversal methods have certain limitations, so there is a new method added in ES2015: `for...of`, that will be used as a uniform method to traverse data structures.
+
+```javascript
+let arr = ['aa', 'bbb'];
+for (const item of arr) {
+  console.log(item); // print out aa bbb
+  if (item > 100) {
+    break; // can be break off by using break、throw、return, but forEach method cannot be interrupt(some、every can be interrupt by return true)
+  }
+}
+
+let iterable = [10, 20, 30];
+for (let value of iterable) {
+  value += 1;
+  console.log(value); // Sequentially output: 11 21 31
+}
+for (const value of iterable) {
+  console.log(value); // Sequentially output: 10 20 30
+}
+
+const s = new Set(['foo', 'bar']);
+for (const item of s) {
+  console.log(item); // output: foo bar
+}
+
+const m = new Map();
+m.set('foo', '123');
+m.set('bar', '345');
+for (let entry of m) {
+  console.log(entry); // Sequentially output:["foo", "123"],["bar", "345"]
+}
+for (const [key, value] of m) {
+  console.log(key, value); // Sequentially output:foo 123，bar 345
+}
+```
+
+> In conclusion, `for...of` will be used as a uniform method to traverse data structures.
+> `for...of`can be break off by using `break`、`throw`、`return`, but `forEach` method cannot be interrupted(`some`、`every`can be interrupt by `return` true), `for...in` is also cannot be interrupted.
+> but `for...of` cannot be walk through `object`
+
+### Iterator
+
+From the following example can be known `for...of` can be traverse `Map`、`Set`、`Array`, but you can't **loop over** `Object` with `for...of`:
+
+```javascript
+const obj = { foo: 123, bar: 456 };
+for (const i of obj) {
+  console.log(i); // TypeError:obj is not iterable
+}
+```
+
+That is due to ES2015 provides us a uniform method for traversing data structures —— Iterable API, `Map`、`Set`and`Array` can be traversed by `for...of` because those are iterable, but `Object` is not.
+
+**👉 How to know if the structure is iterable?**
+![](./img/6.png)
+
+**👉 How to use?**
+`Symbol.iterator` method will be return an array iterator object which contains a `next`method, the `next`method will be return a object when called, the value is the element of this array.
+![](./img/7.png)
+
+**👉 Example for implementing an iterable interface:**
+
+```javascript
+const obj = {
+  [Symbol.iterator]: function () {
+    return {
+      next: function () {
+        return { value: 'zce', done: true };
+      },
+    };
+  },
+};
+
+for (const item of obj) {
+  console.log('循环体'); // 发现没有报错，但是没有打印内容
+}
+
+const obj2 = {
+  store: ['1', '2', '3'],
+  [Symbol.iterator]: function () {
+    let index = 0;
+    const self = this;
+    return {
+      next: function () {
+        const res = {
+          value: self.store[index],
+          done: index >= self.store.length,
+        };
+        index++;
+        return res;
+      },
+    };
+  },
+};
+for (const item of obj2) {
+  console.log('循环体2');
+}
+```
+
+> In conclusion, iterator pattern is aim to provide a uniform traversing method
+
+## Asynchronous Programming
+
+There are lots of asynchronous programming methods in JS:
+
+| Method      | Introduction                                             | Advantage                   | Disadvantage    |
+| ----------- | -------------------------------------------------------- | --------------------------- | --------------- |
+| callback    | the foundation of all asynchronous programming scenarios | simply and high readability | “callback hell” |
+| promise     | fixed the problem of 'callback hell'                     |                             |                 |
+| generator   |                                                          |                             |                 |
+| async await |                                                          |                             |                 |
+
+### Promise
+
+### Generator
+
+sasa
+
+### Async Await
+
+sasa
+
+### ✨ Implement a Promise
+
+## 手写一个 Object.entries
 
 # Map
 
@@ -173,3 +297,5 @@ for (let item in person) {
 - detect: v.查明，检测出，察觉，识别
 - it's a bit hacky
 - walk through: 走过，走查；遍历（数组）
+- traverse: v.横穿，穿过
+- loop over

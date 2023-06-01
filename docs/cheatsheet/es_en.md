@@ -78,7 +78,9 @@ console.log(Reflect.deleteProperty(obj, 'name'))
 console.log(Reflect.ownKeys(obj))
 ```
 
-## for...of
+## for...of and Iterator
+
+### for...of
 
 在 ECMAScript 中，遍历数组有很多方法：
 
@@ -137,3 +139,66 @@ for (const [key, value] of m) {
   console.log(key, value); // 先后输出foo 123，bar 345
 }
 ```
+
+### Iterator
+
+从上面的例子可以看出，for...of 可以遍历数组类的数据结构，但是对于遍历普通对象就会报错：
+
+```javascript
+const obj = { foo: 123, bar: 456 };
+for (const i of obj) {
+  console.log(i); // TypeError:obj is not iterable。 obj是不可被迭代的
+}
+```
+
+原因：ES 中能够表示有结构的数据类型越来越多，从最早的数组、对象，到现在的 set、map 等，为了提供一种统一的遍历方式，ES2015 提供了 Iterable 接口，实现 Iterable 接口就是 for...of 的前提。即能够被 for...of 遍历的数据类型在内部都实现了 Iterable 接口。
+
+Iterable 接口约定了哪些内容？
+首先，在浏览器控制台里可以查看到能被 for...of 遍历的数据类型的原型对象上都有一个 Symbol.iterator 对象。如截图所示：
+![](./img/6.png)
+
+调用这个 Symbol.iterator 方法会返回一个数组迭代器对象，这个对象中有一个 next 方法，此方法返回的也是一个对象，其中 value 的值是数组中的第一个元素，再次调用 next 方法，继续返回对象：
+![](./img/7.png)
+
+因此，可以被 for...of 遍历的数据类型都必须实现这个 Iterable 接口，即在内部要挂载 Iterable 方法，这个方法需要返回一个带有 next 方法的对象，不断调用这个 next 方法可以实现对内部所有元素的遍历。
+
+**👉 实现可迭代接口**
+
+```javascript
+const obj = {
+  [Symbol.iterator]: function () {
+    return {
+      next: function () {
+        return { value: 'zce', done: true };
+      },
+    };
+  },
+};
+
+for (const item of obj) {
+  console.log('循环体'); // 发现没有报错，但是没有打印内容
+}
+
+const obj2 = {
+  store: ['1', '2', '3'],
+  [Symbol.iterator]: function () {
+    let index = 0;
+    const self = this;
+    return {
+      next: function () {
+        const res = {
+          value: self.store[index],
+          done: index >= self.store.length,
+        };
+        index++;
+        return res;
+      },
+    };
+  },
+};
+for (const item of obj2) {
+  console.log('循环体2');
+}
+```
+
+> 总结：迭代器模式的意义核心就是对外提供统一遍历接口。

@@ -1,3 +1,11 @@
+# Javascript
+
+## Event Loop
+
+### Single-thread model
+
+JavaScript is a single-thread programming language. This means that javaScript can do only
+
 # This/Closure/Variable Scope
 
 ## This
