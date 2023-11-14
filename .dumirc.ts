@@ -53,6 +53,68 @@ export default defineConfig({
           ],
         },
         {
+          title: 'Golang+React18+Gin+Gorm构建全栈博客系统',
+          children: [
+            {
+              title: '1.初始化项目、配置参数',
+              link: '/full-stack/blog-rd-init',
+            },
+            {
+              title: '2.配置数据库、数据模型',
+              link: '/full-stack/blog-rd-gorm',
+            },
+            {
+              title: '3.构架错误处理模块和路由接口',
+              link: '/full-stack/blog-rd-route',
+            },
+            {
+              title: '4.编写用户模块接口，实现初步验证+分页功能',
+              link: '/full-stack/blog-rd-user',
+            },
+            {
+              title: '5.用户密码加密存储策略介绍及选择',
+              link: '/full-stack/blog-rd-bcrypt',
+            },
+            {
+              title: '6.编写编辑用户信息+删除用户接口',
+              link: '/full-stack/blog-rd-user2',
+            },
+            {
+              title: '7.完成博客分类接口编写',
+              link: '/full-stack/blog-rd-category',
+            },
+            {
+              title: '8.编写博客文章接口（新增、编辑、删除）',
+              link: '/full-stack/blog-rd-article',
+            },
+            {
+              title: '9.完成博客文章接口（文章和分类的关联查询）',
+              link: '/full-stack/blog-rd-tomany',
+            },
+            {
+              title: '10.编写登录接口，完成JWT中间件',
+              link: '/full-stack/blog-rd-jwt',
+            },
+            {
+              title: '11.完成登录接口',
+              link: '/full-stack/blog-rd-login',
+            },
+            {
+              title: '12.完成上传接口',
+              link: '/full-stack/blog-rd-upload',
+            },
+            {
+              title:
+                '13.处理日志系统（自定义日志、按时间分割日志、软连接最新日志）',
+              link: '/full-stack/blog-rd-log',
+            },
+            {
+              title: '14.后端数据验证、跨域参数配置、增加列表查询的总数返回',
+              link: '/full-stack/blog-rd-cross',
+            },
+          ],
+        },
+        {
           title: 'FlutterApp',
           children: [
             { title: '1.环境搭建', link: '/full-stack/app-init' },
