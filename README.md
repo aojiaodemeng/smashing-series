@@ -22,3 +22,7 @@ $ npm run deploy
 ## LICENSE
 
 MIT
+
+# Plus
+
+[emoji 大全](https://www.emojiall.com/zh-hans)
