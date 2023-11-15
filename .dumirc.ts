@@ -39,6 +39,30 @@ export default defineConfig({
           title: '常用库',
           children: [{ title: 'Dio', link: '/flutter/dio' }],
         },
+        {
+          title: '开发一个通用App',
+          children: [
+            { title: '1.环境搭建', link: '/flutter/app-init' },
+            {
+              title: '2.Flutter实现一个简单页面',
+              link: '/flutter/app-simple-page',
+            },
+            { title: '3.引入路由框架fluro', link: '/flutter/app-add-fluro' },
+            { title: '4.登陆页/注册页', link: '/flutter/app-login' },
+            { title: '5.首页', link: '/flutter/app-home' },
+            {
+              title: '6.设置页/管理发布页',
+              link: '/flutter/app-manage',
+            },
+            { title: '7.详情页', link: '/flutter/app-detail' },
+            { title: '8.dio封装', link: '/flutter/app-dio' },
+            { title: '9.登陆页联调', link: '/flutter/app-login-golang' },
+            { title: '10.城市选择器', link: '/flutter/app-select' },
+            { title: '11.登陆过期处理', link: '/flutter/app-login-timeout' },
+            { title: '12.启动页', link: '/flutter/app-landing-page' },
+            { title: '12.构建打包', link: '/flutter/app-build' },
+          ],
+        },
       ],
       '/full-stack': [
         {
@@ -112,30 +136,6 @@ export default defineConfig({
               title: '14.后端数据验证、跨域参数配置、增加列表查询的总数返回',
               link: '/full-stack/blog-rd-cross',
             },
-          ],
-        },
-        {
-          title: 'FlutterApp',
-          children: [
-            { title: '1.环境搭建', link: '/full-stack/app-init' },
-            {
-              title: '2.Flutter实现一个简单页面',
-              link: '/full-stack/app-simple-page',
-            },
-            { title: '3.引入路由框架fluro', link: '/full-stack/app-add-fluro' },
-            { title: '4.登陆页/注册页', link: '/full-stack/app-login' },
-            { title: '5.首页', link: '/full-stack/app-home' },
-            {
-              title: '6.设置页/管理发布页',
-              link: '/full-stack/app-manage',
-            },
-            { title: '7.详情页', link: '/full-stack/app-detail' },
-            { title: '8.dio封装', link: '/full-stack/app-dio' },
-            { title: '9.登陆页联调', link: '/full-stack/app-login-golang' },
-            { title: '10.城市选择器', link: '/full-stack/app-select' },
-            { title: '11.登陆过期处理', link: '/full-stack/app-login-timeout' },
-            { title: '12.启动页', link: '/full-stack/app-landing-page' },
-            { title: '12.构建打包', link: '/full-stack/app-build' },
           ],
         },
         {
