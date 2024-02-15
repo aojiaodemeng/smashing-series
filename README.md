@@ -15,14 +15,10 @@ $ npm start
 $ npm run build
 
 # deploy
+# 此项目采用了自动化部署，提交代码之后会自动进行部署
 $ npm run deploy
-
 ```
 
-## LICENSE
+## 博客工具
 
-MIT
-
-# Plus
-
-[emoji 大全](https://www.emojiall.com/zh-hans)
+- [emoji 大全](https://www.emojiall.com/zh-hans)
