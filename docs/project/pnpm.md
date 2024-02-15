@@ -228,6 +228,13 @@ console.log(process.env.npm_package_config_port); // 3000
 npm config set test:port 8000
 ```
 
+### 6. type:"module"
+
+- type 字段的产生用于定义 package.json 文件和该文件所在目录根目录中.js 文件和无拓展名文件的处理方式。值为'moduel'则当作 es 模块处理；值为'commonjs'则被当作 commonJs 模块处理
+- 目前 node 默认的是如果 pacakage.json 没有定义 type 字段，则按照 commonJs 规范处理
+- node 官方建议包的开发者明确指定 package.json 中 type 字段的值
+- 无论 package.json 中的 type 字段为何值，.mjs 的文件都按照 es 模块来处理，.cjs 的文件都按照 commonJs 模块来处理
+
 ## 包管理工具
 
 ### pnpm VS npm VS yarn
