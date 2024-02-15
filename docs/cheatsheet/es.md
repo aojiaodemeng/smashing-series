@@ -1,21 +1,26 @@
 # ECMAScript
 
-If we want to learn JavaScript, we need to understand the basic of JavaScript and ECMAScript(ES).
+:::success{title=重要性}
+JavaScript (in browsers) = ECMAScript + Web APIs(DOM、BOM)
+JavaScript (in Node) = ECMAScript + Node APIs(fs、net,etc.)
+:::
 
-ECMAScript is a _subset_ of JavaScript.In other words, ECMAScript is an simple standard for JavaScript and adding new features to JavaScript. Then, we can _manipulate_ the JavScript _Document Object Model(DOM)_ and _Browser Object Model(BOM)_ in browsers, read and write files on our local filesystem using NodeJS.
+## 箭头函数
 
-> JavaScript (in browsers) = ECMAScript + Web APIs(DOM、BOM)
-> JavaScript (in Node) = ECMAScript + Node APIs(fs、net,etc.)
+### 箭头函数与普通函数的区别
 
-Brendan Eich created Mocha which became LiveScript, and later JavaScript. Netscape presented JavaScript to [Ecma International](https://www.ecma-international.org/),which develops standards and it was renamed to ECMAScript.
+- 箭头函数没有自己的 this，同时也因为没有自己的 this，所以也不能用作构造函数
+- 箭头函数没有自己的 arguments 对象。在箭头函数中访问 arguments 实际上获得的是它外层函数的 arguments 值。
+-
 
-> By December 1960 the form that the Association would take was fairly well defined and it had been decided that the headquarters should be in Geneva.
+### new 操作符的执行过程
 
-Since ES2015,ECMAScript has been named by year rather than by version number.and most of people <u>have been accustomed to calling</u> ES2015 ES6.
+- 1.首先创建了一个新的空对象
+- 2.将对象的原型（**proto**属性）设置为函数的 prototype 对象（将构造函数的作用域赋给新对象）
+- 3.让构造函数的 this 指向这个对象，执行构造函数的代码（为这个新对象添加属性）
+- 4.判断函数的返回值类型，如果是值类型，返回创建的对象。如果是引用类型，就返回这个引用类型的对象。
 
-## arrow function
-
-now, let we look a example:
+### 一道面试题
 
 ```js
 const person = {
@@ -51,13 +56,9 @@ person.sayHiAsync2(); // print put name , 基于闭包保存当前作用域的th
 person.sayHiAsyncWithArrow(); // print put name , 箭头函数不改变this
 ```
 
-## generator / async await
+## 代理 Proxy
 
-sdsd
-
-## Proxy
-
-The Proxy object enables you to create a proxy for another object, which can _intercept_ and redefine fundamental operations for that object.
+Proxy 对象对另一个对象创建代理，对该对象的基本操作行为可以进行拦截并对其重新定义。
 
 ```javascript
 const person = {
@@ -86,37 +87,38 @@ personProxy.age = '100';
 
 ### Proxy vs Object.defineProperty
 
-As we all know, `Proxy` and `Object.defineProperty` can be used to listen for property changes, but why vue3 uses `Proxy` instead of `Object.defineProperty` for its _reactivity system_?
+众所周知，`Proxy`和`Object.defineProperty`都可以监听对象的读写，但为什么 Vue3 放弃使用了 Vue2 种的选择使用了`Object.defineProperty`而选择了`Proxy` 呢？
 
-Through reading this article: [Understanding the New Reactivity System in Vue 3](https://www.sitepoint.com/vue-3-reactivity-system/), we can draw a conclusion that:
+阅读了这篇文章[Understanding the New Reactivity System in Vue 3](https://www.sitepoint.com/vue-3-reactivity-system/)，可以很确定：因为`Object.defineProperty`的诸多局限性，有些操作是无法监听到的，比如：
 
-because of the limitations of `Object.defineProperty`，there are some data changes that Vue can't `detect`,these include:
+- 对对象增加新属性，或删除某属性，比如`obj.newKey=value` 或`delete obj.curValue`
+- 无法监听数组的任何行为，比如通过 index 更改数组中的某个值：arr[index] = newValue，或者更改数组的长度：`arr.length = newLength`
 
-- adding/removing a property to/form an object(such as `obj.newKey=value` or `delete obj.curValue`)
-- any changes of array(such as setting array items by index:`arr[index] = newValue` or modifying the length of an array:`arr.length = newLength`)
+为了解决`Object.defineProperty`的以上局限性，Vue2 提供了`Vue.set` API，来实现对象的更多操作监听，并使用了一些 hacky 的方法，比如原生`splice`数组方法去更改数组的长度，但这破坏了代码的规范性，写法上跟其他地方不一致，而这些问题，`Proxy` 完美避开。
 
-so,Vue2 provides us with `Vue.set` API method to deal with these limitations, and using some other methods(such as using `splice` array method to change the length of an array), but <u>it's a bit hacky</u> and leads to inconsistency in the codebase.but this has been resolved in Vue3 which uses `Proxy` .
+:::success{title=总结}
+`Proxy` 相对于`Object.defineProperty`更强大:
 
-> In conclusion, `Proxy` is better than `Object.defineProperty`:
->
-> - `Object.defineProperty`is used to listen for object, rather than array. but `Proxy`can do those well.
-> - `Object.defineProperty`methods can't detect some operations(such as `obj.newKey=value` or `delete obj.curValue`), but `Proxy`can do.
-> - `Proxy`makes code more elegant.it can detect all properties of object by coding a proxy method, but`Object.defineProperty` has to be **walked through** if you want to listen all properties's operations.Besides, the former is a non-intrusive method of listening and does not require operations on the source object.
+> - `Object.defineProperty`是属于对象的方法，无法监听数组。`Proxy`可以
+> - `Object.defineProperty`并非所有行为都能监听到（比如 `obj.newKey=value` or `delete obj.curValue`）
+> - `Proxy`更优雅。对对象的所有属性实现监听一个代理方法即可搞定，但是`Object.defineProperty`却需要遍历对象的属性，因为这个方法是对单个属性单独监听。此外，前者是以非侵入式的方法进行监听，不需要对源对象进行操作。
 
-**CodePen example**:
+:::
+
+**CodePen 示例**:
 [![CodePen example](https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico)](https://codepen.io/aojiaodemeng/pen/JjmmrKm)
 
 ## Reflect
 
-`Reflect` is not a constructor but static class, you cannot use it with the `new` operator or invoke it as a function.It contains static methods for invoking interceptable JavaScript object internal methods.
+Reflect 属于一个静态类，即不能通过 new 构建实例对象（new Reflect()），只能通过调用 Reflect 的静态方法(Reflect.get())。在 Reflect 内部封装了一系列对对象的底层操作，Reflect 成员方法就是 Proxy 处理对象的默认实现。
 
-`Reflect` provides us a unified set of APIs for manipulating object.
+Reflect 的存在意义——统一提供一套用于操作对象的 API
 
 ```javascript
 const obj = { foo: '123', bar: '456' };
 
 const proxy = new Proxy(obj, {
-  // if there is no get methods, default get method will be called
+  // 如果没有定义get方法，就相当于使用默认的：
   get(target, property) {
     return Reflect.get(target, property);
   },
@@ -126,103 +128,102 @@ const proxy = new Proxy(obj, {
 ```javascript
 const obj = { foo: "123", bar: "456" };
 
-// there are different methods of manipulating object
+// 以下都是操作对象，但是方法却截然不同
 console.log('name' in obj);
 console.log(delete obj['age']));
 console.log(Object.keys(obj)));
 
-// but if using Reflect, it's very clean and unified
+// 使用Reflect
 console.log(Reflect.has(obj, 'name'))
 console.log(Reflect.deleteProperty(obj, 'name'))
 console.log(Reflect.ownKeys(obj))
 ```
 
-## for...of and Iterator
+## 迭代器 for...of and Iterator
 
-There are lots of method of walking through array in ECMAScript:
+### for...of
 
-- `for`: is suited for common array.
-- `for...in`: is suited for key-value pairs. such as array、object.
-- `forEach` and other traversal methods.
+在 ECMAScript 中，遍历数组有很多方法：
 
-for example:
+- for——适合遍历普通数组
+- for...in——适合遍历键值对
+- forEach 等一些对象的遍历方法
+
+for...in
 
 ```js
 let arr = ['aa', 'bbb'];
 for (let i in arr) {
-  console.log(i, arr[i]); // print out: 0 aa，1 bbb
-  if (i > 0) break; // break does not take effect, and the operation continues
+  console.log(i, arr[i]); // 输出0 aa，1 bbb
+  if (i > 0) break; // break不生效，继续执行
 }
 
 var person = { fname: 'John', lname: 'Doe', age: 25 };
 for (let item in person) {
-  console.log(item, person[item]); // print out:fname John，lname Doe，age 25
+  console.log(item, person[item]); // 输出fname John，lname Doe，age 25
 }
 ```
 
-### for...of
-
-All of the above traversal methods have certain limitations, so there is a new method added in ES2015: `for...of`, that will be used as a uniform method to traverse data structures.
+以上遍历方式都有一定的局限性，所以 ES2015 借鉴了其他语言，引入了 for...of 循环。这种方式以后会作为遍历所有数据结构的统一方式。
 
 ```javascript
 let arr = ['aa', 'bbb'];
 for (const item of arr) {
-  console.log(item); // print out aa bbb
+  console.log(item); // 输出 aa bbb
   if (item > 100) {
-    break; // can be break off by using break、throw、return, but forEach method cannot be interrupt(some、every can be interrupt by return true)
+    break; // for...of可以用break、throw、return终止循环/关闭迭代器，但是forEach是不可以的，some、every中可以返回true终止。
   }
 }
 
 let iterable = [10, 20, 30];
 for (let value of iterable) {
   value += 1;
-  console.log(value); // Sequentially output: 11 21 31
+  console.log(value); // 先后输出11 21 31
 }
+// 如果不想修改语句块中的变量，let就改成const
 for (const value of iterable) {
-  console.log(value); // Sequentially output: 10 20 30
+  console.log(value); // 先后输出10 20 30
 }
 
 const s = new Set(['foo', 'bar']);
 for (const item of s) {
-  console.log(item); // output: foo bar
+  console.log(item); // 输出foo bar
 }
 
 const m = new Map();
 m.set('foo', '123');
 m.set('bar', '345');
 for (let entry of m) {
-  console.log(entry); // Sequentially output:["foo", "123"],["bar", "345"]
+  console.log(entry); // 先后输出["foo", "123"],["bar", "345"]
 }
 for (const [key, value] of m) {
-  console.log(key, value); // Sequentially output:foo 123，bar 345
+  console.log(key, value); // 先后输出foo 123，bar 345
 }
 ```
 
-> In conclusion, `for...of` will be used as a uniform method to traverse data structures.
-> `for...of`can be break off by using `break`、`throw`、`return`, but `forEach` method cannot be interrupted(`some`、`every`can be interrupt by `return` true), `for...in` is also cannot be interrupted.
-> but `for...of` cannot be walk through `object`
-
 ### Iterator
 
-From the following example can be known `for...of` can be traverse `Map`、`Set`、`Array`, but you can't **loop over** `Object` with `for...of`:
+从上面的例子可以看出，for...of 可以遍历数组类的数据结构，但是对于遍历普通对象就会报错：
 
 ```javascript
 const obj = { foo: 123, bar: 456 };
 for (const i of obj) {
-  console.log(i); // TypeError:obj is not iterable
+  console.log(i); // TypeError:obj is not iterable。 obj是不可被迭代的
 }
 ```
 
-That is due to ES2015 provides us a uniform method for traversing data structures —— Iterable API, `Map`、`Set`and`Array` can be traversed by `for...of` because those are iterable, but `Object` is not.
+原因：ES 中能够表示有结构的数据类型越来越多，从最早的数组、对象，到现在的 set、map 等，为了提供一种统一的遍历方式，ES2015 提供了 Iterable 接口，实现 Iterable 接口就是 for...of 的前提。即能够被 for...of 遍历的数据类型在内部都实现了 Iterable 接口。
 
-**👉 How to know if the structure is iterable?**
-![](./img/6.png)
+Iterable 接口约定了哪些内容？
+首先，在浏览器控制台里可以查看到能被 for...of 遍历的数据类型的原型对象上都有一个 Symbol.iterator 对象。如截图所示：
+![](./img/es-6.png)
 
-**👉 How to use?**
-`Symbol.iterator` method will be return an array iterator object which contains a `next`method, the `next`method will be return a object when called, the value is the element of this array.
-![](./img/7.png)
+调用这个 Symbol.iterator 方法会返回一个数组迭代器对象，这个对象中有一个 next 方法，此方法返回的也是一个对象，其中 value 的值是数组中的第一个元素，再次调用 next 方法，继续返回对象：
+![](./img/es-7.png)
 
-**👉 Example for implementing an iterable interface:**
+因此，可以被 for...of 遍历的数据类型都必须实现这个 Iterable 接口，即在内部要挂载 Iterable 方法，这个方法需要返回一个带有 next 方法的对象，不断调用这个 next 方法可以实现对内部所有元素的遍历。
+
+**👉 实现可迭代接口**
 
 ```javascript
 const obj = {
@@ -261,9 +262,9 @@ for (const item of obj2) {
 }
 ```
 
-> In conclusion, iterator pattern is aim to provide a uniform traversing method
+> 总结：迭代器模式的意义核心就是对外提供统一遍历接口。
 
-## Asynchronous Programming
+## 异步编程 Asynchronous Programming
 
 There are lots of asynchronous programming methods in JS:
 
@@ -278,24 +279,44 @@ There are lots of asynchronous programming methods in JS:
 
 ### Generator
 
-sasa
-
 ### Async Await
 
-sasa
+## class 中 的 constructor 与 super 的理解
 
-### ✨ Implement a Promise
+### constructor
 
-## 手写一个 Object.entries
+constructor 是类 class 的构造函数，通过 new 命令创建对象实例时，会自动调用此方法，一个类必须有 constructor 方法，如果未显式定义，一个默认的 constructor 会被默认添加。一般 constructor 方法返回实例对象 this，但也可以指定 constructor 方法返回一个新的对象。
 
-# Map
+### super
 
-- subset：n.分组；小组；子集
-- manipulate: v.操作，控制，使用
-- have been accustomed to doing
-- intercept: v.拦截
-- detect: v.查明，检测出，察觉，识别
-- it's a bit hacky
-- walk through: 走过，走查；遍历（数组）
-- traverse: v.横穿，穿过
-- loop over
+class 继承中，子类如果想要用 this 关键字，就必须在其构造函数里执行 super 方法，否则会报错。这是因为子类自己的 this 对象，需要先通过父类的构造函数完成塑造，得到父类的实例属性和方法之后，再对其进行加工，加入子类自己的属性和方法。如果不调用 super 方法，子类就得不到 this 对象。
+
+super 这个关键字，既可以当做函数使用，也可以当做对象使用。
+
+#### super 当做函数使用
+
+```javascript
+class A {
+  constructor() {
+    console.log(new.target.name); // new.target 指向当前正在执行的函数
+  }
+}
+
+class B extends A {
+  constructor {
+    super();  // super代表了父类构造函数，但返回的是子类的实例，即super内部的this指向的是子类。
+              // super()相当于执行了A.prototype.constructor.call(this, props)
+  }
+}
+new A(); // A
+new B(); // B
+```
+
+#### super 当做对象使用
+
+略
+
+### 参考文章
+
+[阮一峰-Class 的继承](https://es6.ruanyifeng.com/#docs/class-extends)
+[解读 es6 class 中 constructor 方法 和 super 的作用](https://blog.csdn.net/a419419/article/details/82772412)

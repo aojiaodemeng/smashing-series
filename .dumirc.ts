@@ -4,11 +4,16 @@ const repo = 'smashing-series'; // git仓库名
 
 const isProd = process.env.NODE_ENV === 'production';
 
+// locales: [{ id: 'en-US', name: '英文' }],
+// locales: [{ id: 'zh-CN', name: '中文' }],
 export default defineConfig({
   base: isProd ? `/${repo}/` : '/',
   publicPath: isProd ? `/${repo}/` : '/',
   favicons: [isProd ? `/${repo}/favicon.ico` : `/favicon.ico`],
-  locales: [{ id: 'en-US', name: '英文' }],
+  locales: [
+    // { id: 'en-US', name: '英文' },
+    { id: 'zh-CN', name: '中文' },
+  ],
   themeConfig: {
     name: 'Smashing Series',
     logo: isProd ? `/${repo}/logo.png` : `/logo.png`,
@@ -62,6 +67,161 @@ export default defineConfig({
             { title: '12.启动页', link: '/flutter/app-landing-page' },
             { title: '12.构建打包', link: '/flutter/app-build' },
           ],
+        },
+      ],
+      '/cheatsheet': [
+        {
+          title: 'FE Cheatsheet',
+          children: [
+            { title: 'HTML', link: '/cheatsheet/html' },
+            { title: 'CSS', link: '/cheatsheet/css' },
+            { title: 'ECMAScript', link: '/cheatsheet/es' },
+            { title: 'Asynchronous Programming', link: '/cheatsheet/ap' },
+          ],
+        },
+        {
+          title: 'ECMAScript',
+          children: [
+            { title: '箭头函数', link: '/cheatsheet/es-arrow' },
+            { title: '迭代器', link: '/cheatsheet/es-iterator' },
+            { title: '异步编程', link: '/cheatsheet/es-async' },
+          ],
+        },
+        {
+          title: 'JavaScript',
+          children: [
+            { title: '数据类型', link: '/cheatsheet/js-data' },
+            { title: '异步编程', link: '/' },
+            { title: '错误监控与代码调试', link: '/cheatsheet/js-error' },
+            { title: '手写Promise', link: '/cheatsheet/js-promise' },
+          ],
+        },
+        {
+          title: 'JavaScript',
+          children: [
+            { title: '数据类型', link: '/cheatsheet/js-data' },
+            { title: '异步编程', link: '/' },
+            { title: '错误监控与代码调试', link: '/cheatsheet/js-error' },
+          ],
+        },
+        {
+          title: 'TypeScript',
+          children: [
+            { title: '类型系统', link: '/cheatsheet/ts-sys' },
+            { title: '概述', link: '/cheatsheet/ts-base' },
+            { title: '类型', link: '/cheatsheet/ts-type' },
+            { title: '类', link: '/cheatsheet/ts-class' },
+          ],
+        },
+        {
+          title: '函数式编程',
+          children: [
+            { title: '前置知识', link: '/cheatsheet/fp-base' },
+            { title: '纯函数与柯里化', link: '/cheatsheet/fp-curry' },
+            { title: '函数组合', link: '/cheatsheet/fp-combine' },
+            { title: '函子', link: '/cheatsheet/fp-functor' },
+          ],
+        },
+        {
+          title: 'English Words Map',
+          children: [{ title: 'English Words Map', link: '/cheatsheet/words' }],
+        },
+      ],
+      '/algorithm': [
+        {
+          title: '算法',
+          children: [
+            { title: '基础', link: '/algorithm/base' },
+            { title: '位运算', link: '/algorithm/xor' },
+            { title: '数据结构', link: '/algorithm/structure' },
+            { title: '二叉树', link: '/algorithm/tree' },
+            { title: '排序与搜索', link: '/algorithm/simple-sort' },
+            { title: '动态规划', link: '/algorithm/dp' },
+            { title: '动态规划之子序列问题', link: '/algorithm/subsequence' },
+            { title: '动态规划之背包问题', link: '/algorithm/knapsack' },
+            { title: '贪心算法', link: '/algorithm/greedy' },
+            { title: '回溯算法', link: '/algorithm/backtrack' },
+            { title: '拓扑排序', link: '/algorithm/topology-sort' },
+          ],
+        },
+      ],
+      '/project': [
+        {
+          title: 'Webpack',
+          children: [{ title: 'Webpack', link: '/project/webpack' }],
+        },
+        {
+          title: 'Nodejs',
+          children: [{ title: 'Webpack', link: '/project/webpack' }],
+        },
+        {
+          title: '性能优化',
+          children: [
+            { title: '基础', link: '/project/performance' },
+            { title: '性能测试', link: '/project/performance-tool' },
+            { title: '请求和响应优化', link: '/project/http-performance' },
+          ],
+        },
+        {
+          title: '组件库基础设施',
+          children: [{ title: 'pnpm+monorepo', link: '/project/pnpm' }],
+        },
+      ],
+      '/network': [
+        {
+          title: ' 计算机网络',
+          children: [
+            { title: 'HTTP基础', link: '/network/base' },
+            { title: '前端缓存', link: '/network/cache' },
+          ],
+        },
+        {
+          title: '设计模式',
+          children: [{ title: '单例模式', link: '/network/singleton' }],
+        },
+        {
+          title: 'Devops',
+          children: [{ title: 'CI/CD', link: '/devops/' }],
+        },
+      ],
+      '/frame': [
+        {
+          title: '《Vue3框架》',
+          children: [
+            { title: '框架设计', link: '/frame/vue3-design' },
+            { title: '响应系统', link: '/frame/vue3-reactive' },
+            { title: '渲染器 Renderer', link: '/frame/vue3-renderer' },
+            { title: '组件化', link: '/frame/vue3-component' },
+            { title: '编译器 Compiler', link: '/frame/vue3-compiler' },
+            { title: '巩固题', link: '/frame/vue3-cheat' },
+          ],
+        },
+        {
+          title: '《React框架》',
+          children: [
+            { title: 'React基础', link: '/frame/react-base' },
+            { title: 'VDom', link: '/frame/react-vdom' },
+            { title: 'React-Router', link: '/frame/react-router' },
+            { title: '事件处理机制', link: '/frame/react-system' },
+            { title: '通信与数据管理', link: '/frame/react-redux' },
+            { title: '从setState到性能优化', link: '/frame/react-setstate' },
+            { title: '实现简易版React', link: '/frame/react-handle' },
+          ],
+        },
+        {
+          title: '《Flutter框架》',
+          children: [
+            { title: '介绍', link: '/frame/flutter-basic' },
+            { title: '基础知识', link: '/frame/flutter-entry' },
+            { title: '常用库', link: '/frame/flutter-dio' },
+            { title: '开发一个通用APP', link: '/frame/flutter-app' },
+          ],
+        },
+      ],
+      '/lowcode': [
+        {
+          title: '前端部分',
+          children: [{ title: '项目准备', link: '/lowcode/fe-init' }],
         },
       ],
       '/full-stack': [
@@ -143,31 +303,6 @@ export default defineConfig({
           children: [
             { title: 'Start', link: '/full-stack' },
             { title: 'Config Mysql and Gorm', link: '/full-stack/mysql' },
-          ],
-        },
-      ],
-      '/cheatsheet': [
-        {
-          title: 'FE Cheatsheet',
-          children: [
-            { title: 'ECMAScript', link: '/cheatsheet/es' },
-            { title: 'JavaScript', link: '/cheatsheet/js' },
-            { title: 'Asynchronous Programming', link: '/cheatsheet/ap' },
-            { title: 'Functional Programming', link: '/cheatsheet/fp' },
-            { title: 'TypeScript', link: '/cheatsheet/ts' },
-            { title: 'ReactJs', link: '/cheatsheet/react' },
-            { title: 'VueJs', link: '/cheatsheet/vue' },
-            { title: 'English Words Map', link: '/cheatsheet/words' },
-          ],
-        },
-      ],
-      '/algorithm': [
-        {
-          title: '算法',
-          children: [
-            { title: '复杂度', link: '/algorithm/complexity' },
-            { title: '比较器', link: '/algorithm/comparator' },
-            { title: '异或(Exclusive or, XOR)', link: '/algorithm/xor' },
           ],
         },
       ],
