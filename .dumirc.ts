@@ -132,6 +132,7 @@ export default defineConfig({
           title: '算法',
           children: [
             { title: '基础', link: '/algorithm/base' },
+            { title: '数学运算', link: '/algorithm/math' },
             { title: '位运算', link: '/algorithm/xor' },
             { title: '数据结构', link: '/algorithm/structure' },
             { title: '二叉树', link: '/algorithm/tree' },
@@ -147,12 +148,12 @@ export default defineConfig({
       ],
       '/project': [
         {
-          title: 'Webpack',
-          children: [{ title: 'Webpack', link: '/project/webpack' }],
-        },
-        {
-          title: 'Nodejs',
-          children: [{ title: 'Webpack', link: '/project/webpack' }],
+          title: '基础设施',
+          children: [
+            { title: '包管理基础package.json', link: '/project/package' },
+            { title: '包管理工具与Monorepo', link: '/project/pnpm' },
+            { title: '从零打造一个CLI脚手架', link: '/project/cli' },
+          ],
         },
         {
           title: '性能优化',
@@ -161,10 +162,6 @@ export default defineConfig({
             { title: '性能测试', link: '/project/performance-tool' },
             { title: '请求和响应优化', link: '/project/http-performance' },
           ],
-        },
-        {
-          title: '组件库基础设施',
-          children: [{ title: 'pnpm+monorepo', link: '/project/pnpm' }],
         },
       ],
       '/network': [

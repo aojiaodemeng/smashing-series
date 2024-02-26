@@ -473,6 +473,8 @@ path.forEach((k) => {
 
 [力扣 链接](https://leetcode.cn/problems/palindrome-linked-list/description/)
 
+最新思路： 将元素放到数组里，然后对数组进行双指针，即可验证。
+
 #### 思路 1
 
 遍历链表，将链表里的值挨个放进数组里，然后，再次遍历链表，每次遍历都拿数组里最后一个值进行对比

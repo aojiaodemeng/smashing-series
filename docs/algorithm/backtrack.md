@@ -70,6 +70,8 @@ for (int i = 1; i <= n; i++) {
 - 用树形结构来分析，可以发现 n 相当于树的宽度，k 相当于树的深度
   :::
 
+![](./img/backtacking-comb.png)
+
 ```js
 /**
  * @param {number} n

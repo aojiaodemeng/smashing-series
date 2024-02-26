@@ -478,6 +478,34 @@ public static int[] partition(int[] arr,int l, int r){
 
 > 总结：最差情况下，空间复杂度是$O(N)$，时间复杂度是$O(N^2)$
 
+### 阮式快排有助于理解
+
+18 年阮一峰在微博被人吐槽了就是因为这个，不过我觉得这种方式挺好理解，比原地的简单多了。
+
+```js
+const quickSort = function (arr) {
+  if (arr.length < 2) return arr;
+  // 随机选择0～arr.length之间选一个基准值
+  const pivot = Math.floor(Math.random() * arr.length);
+  // 声明两个数组，分别用于存放比基准值小的数据和比基准值大的数据
+  let minArr = [];
+  let maxArr = [];
+  // 根据基准值填充数组
+  for (let i = 0; i < arr.length; i++) {
+    // 大于基准值就放maxArr里
+    if (arr[i] >= arr[pivot] && i !== pivot) {
+      maxArr.push(arr[i]);
+    }
+    // 小于基准值就放minArr里
+    if (arr[i] < arr[pivot] && i !== pivot) {
+      minArr.push(arr[i]);
+    }
+  }
+  // 分别对基准值划分出来的数组递归调用快速排序，然后合并数组
+  return [...quickSort(minArr), arr[pivot], ...quickSort(maxArr)];
+};
+```
+
 ### 力扣 912. 排序数组
 
 [力扣 链接](https://leetcode.cn/problems/sort-an-array/)

@@ -72,21 +72,26 @@ preorder(data);
 7;
 ```
 
-### 二叉树先序遍历（非递归）
+### 二叉树先序遍历（迭代）
+
+由于栈是“先进后出”的顺序，所以入栈时先将右子树入栈，这样使得前序遍历结果为 “根->左->右”的顺序。
 
 ```js
 const data = require('./bt');
 
 const preorder = (root) => {
-  if (!root) {
-    return;
-  }
+  if (!root) return [];
+  const res = [];
   const stack = [root];
   while (stack.length) {
-    const n = stack.shift();
-    console.log(n.val);
-    if (n.left) stack.push(n.left);
-    if (n.right) stack.push(n.right);
+    const cur = stack.pop();
+    console.log(cur.val);
+    if (cur.right) {
+      stack.push(cur.right);
+    }
+    if (cur.left) {
+      stack.push(cur.left);
+    }
   }
 };
 preorder(data);
@@ -120,26 +125,26 @@ inorder(data);
 7;
 ```
 
-### 二叉树中序遍历（非递归）
+### 二叉树中序遍历（迭代）
+
+思路参考[力扣官方](https://leetcode.cn/problems/binary-tree-inorder-traversal/solutions/412886/er-cha-shu-de-zhong-xu-bian-li-by-leetcode-solutio/)
 
 ```js
 const data = require('./bt');
 
 const inorder = (root) => {
-  if (!root) {
-    return;
-  }
   const stack = [];
-  let p = root;
-  while (stack.length || p) {
-    while (p) {
-      stack.push(p);
-      p = p.left;
+  const res = [];
+  while (root || stack.length) {
+    while (root) {
+      stack.push(root);
+      root = root.left;
     }
-    const n = stack.pop();
-    console.log(n.val);
-    p = n.right;
+    root = stack.pop(); // 注意是赋值给root
+    console.log(root.val);
+    root = root.right; // 不要加 if(root.right)
   }
+  return res;
 };
 
 inorder(data);
@@ -173,7 +178,9 @@ postorder(data);
 1;
 ```
 
-### 二叉树后序遍历（非递归）
+### 二叉树后序遍历（迭代）
+
+先序遍历是中左右，后续遍历是左右中，那么我们只需要调整一下先序遍历的代码顺序，就变成中右左的遍历顺序，然后在反转 result 数组，输出的结果顺序就是左右中了。
 
 ```js
 const data = require('./bt');

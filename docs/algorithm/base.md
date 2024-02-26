@@ -6,6 +6,115 @@
 - [labuladong 的算法小抄 - github](https://github.com/labuladong/fucking-algorithm)
 - [labuladong 的算法小抄 - website](https://labuladong.online/algo/)
 
+## 刷题专栏
+
+- [牛客网-华为机试](https://www.nowcoder.com/exam/oj/ta?tpId=37)
+
+根据遗忘曲线刷题：
+
+- 第一遍
+- 第二天按照自己的记忆和理解再刷一遍这个题
+- 第五天再刷一次
+
+### 关于牛客网
+
+#### 1.牛客网的题目，如何获取形参？
+
+- [HJ2 计算某字符出现次数](https://www.nowcoder.com/practice/a35ce98431874e3a820dbe4b2d0508b1?tpId=37&tqId=21225&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
+
+```js
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const arr = []; // 创建一个数组，用来放输入的字符串和需要搜索的字符
+rl.on('line', function (line) {
+  // arr.push(line.toLowerCase())
+  // const str = arr[0].split('')
+  // let count = 0;
+  // for(let i of str){
+  //    if(i === arr[1]){
+  //     count++
+  //    }
+  // }
+  // console.log(count) // 这样会输出两个答案，执行结果就是错的！
+
+  arr.push(line.toLowerCase());
+  if (arr.length == 2) {
+    const str = arr[0].split('');
+    let count = 0;
+    for (let i of str) {
+      if (i === arr[1]) {
+        count++;
+      }
+    }
+    console.log(count);
+  }
+});
+```
+
+- [HJ3 明明的随机数](https://www.nowcoder.com/practice/3245215fffb84b7b81285493eae92ff0?tpId=37&tqId=21226&rp=1&ru=%2Fexam%2Foj%2Fta&qru=%2Fexam%2Foj%2Fta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D1%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=&dayCountBigMember=365%E5%A4%A9)
+
+```js
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let count = 0;
+const nums = [];
+rl.on('line', function (line) {
+  // 如果好像每次
+  // if(nums.length === 0){
+  //     count = Number(line)
+  // }else{
+  //     nums.push(Number(line))
+  // }
+  nums.push(Number(line));
+  console.log(nums, count);
+});
+```
+
+或者在 close 里获取：
+
+- [HJ105 记负均正 II](https://www.nowcoder.com/practice/64f6f222499c4c94b338e588592b6a62?tpId=37&tqId=21328&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fdifficulty%3D5%26page%3D1%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
+
+```js
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+const originArr = [];
+rl.on('line', function (line) {
+  originArr.push(line);
+});
+rl.on('close', function () {
+  console.log(originArr);
+});
+```
+
+### 刷题知识总览
+
+- toUpperCase、toLowerCase
+- 随机数：Math.floor( Math.random()\*len )
+- Math.floor : 向下取整、Math.ceil : 向上取整
+- 根据长度创建数组：new Array(len)
+- 进制转换
+  - Number.parseInt(str, radio) ，radio 代表是几进制，将其转换为十进制，比如 Number.parseInt('0xAA', radio)
+  - num.toString(radio)，将 num 转换成任意进制，比如 var num=2, num.toString(16)
+- 精度 precison：1e-7
+- 保留一位小数：num.toFixed(1) // 返回的是一个字符串
+- 正则表达式
+  - [正则表达式详解](https://blog.csdn.net/weixin_54217950/article/details/122478499)
+  - [正则表达式中的^](https://www.cnblogs.com/jarsing/articles/17535288.html)^有两种位置：在字符集 [ ] 内，如果 ^ 出现在开头位置，它将取反字符集的匹配。如果在正则表达式开头位置，就表示匹配字符串的开头位置
+
 ## 时间复杂度
 
 ### 什么是常数操作
@@ -186,6 +295,44 @@ function compareDESC(a, b) {
   return b - a;
 }
 arr.sort(compareDESC);
+```
+
+### [HJ102 字符统计](https://www.nowcoder.com/practice/c1f9561de1e240099bdb904765da9ad0?tpId=37&tqId=21325&rp=1&ru=/exam/oj/ta&qru=/exam/oj/ta&sourceUrl=%2Fexam%2Foj%2Fta%3Fpage%3D2%26pageSize%3D50%26search%3D%26tpId%3D37%26type%3D37&difficulty=undefined&judgeStatus=undefined&tags=&title=)
+
+重点：
+
+- 1.ASCII 码如何比较：str.charCodeAt(0)
+- 2.自定义比较器
+- 3.Object.entries(obj)的使用，此法不能用于 map
+
+```js
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+rl.on('line', function (line) {
+    const arr = line.split('')
+    const obj = {}
+    for(let i=0;i<arr.length;i++){
+        const cur = arr[i]
+        obj[cur] = (obj.hasOwnProperty(cur) ? obj[cur]+1 : 1)
+    }
+    const arr1 = Object.entries(obj);
+    const sum = arr1.sort((a,b)=>{
+        if(a[1] ===b[1]){
+            return a[0].charCodeAt(0) - b[0].charCodeAt(0)
+        }else{
+            return (b[1] as number - (a[1] as number))
+        }
+    }).reduce((prev, cur)=>{
+        prev += cur[0]
+        return prev
+    }, '')
+
+    console.log(sum)
+});
 ```
 
 ### 相关链接
