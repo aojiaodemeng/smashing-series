@@ -18,7 +18,7 @@ features:
   - title: 前端框架
     emoji: 🌍
     link: /frame/vue3-design
-    description: React、Vue3、Flutter
+    description: React、Vue3
   - title: 算法Algorithm
     emoji: 🍆
     link: /algorithm/base
@@ -27,10 +27,6 @@ features:
     emoji: 🌍
     link: /network/base
     description: 计算机网络
-  - title: 全栈低代码平台
-    emoji: 🌍
-    link: /lowcode/fe-init
-    description: CI/CD、Nextjs
   - title: Golang全栈
     emoji: 🫘
     link: /full-stack

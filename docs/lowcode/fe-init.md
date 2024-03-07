@@ -133,11 +133,9 @@ pnpm install turbo  -D
 
 主要是用于构建 CI 使用。在工程 package 中执行 turbo run build --filter @lgnition-web/editor 即可完成构建编辑器应用的相关任务。
 
-## 拖拽功能
+## 拖拽方案选择
 
 绝大部分的可视化搭建平台都会使用拖拉拽来完成对应页面的布局，减少非研发成员对于选择物料进行整体布局的学习成本，所以流畅的拖拽功能是基于 GUI 的低代码平台中编辑器模块的核心功能之一。
-
-### 拖拽方案选择
 
 #### 1.HTML5 原生拖拽方案
 
@@ -155,7 +153,293 @@ pnpm install turbo  -D
 - 使用 `craft.js` 这个开源组件来作为一个中间层实现编辑器相关的拖拽与编排关联
 - iframe 实现编辑器画布预览
 
-### step1. 安装 craftjs
+## 渲染方案探索
+
+### 1.渲染方式
+
+作为工具类的 web 产品，数据量会比一般 web 产品多，对性能要求就会更高，并且性能要求主要体现在渲染方面。
+
+- DOM：比如 React、Vue 这些框架，以及大部分 web 产品
+- Canvas：蓝湖、即时设计、figma
+- 优势对比：浏览器 DOM 的优势在于每一个节点都是独立开的，并且具有一套完整易用的浏览器事件系统提供给开发者进行调用，而 Canvas 则是在一个画布平面当中，只能通过元素的 x，y 的距离边界来确定交互的元素，然后通过事件的广播进行操作。
+
+如何选择？
+
+- 追求开发体验（代码维护性、开发效率），选择 DOM
+- 追求高性能的图形和动画效果，且不需要 SEO，选择 Canvas
+
+### 2.Iframe
+
+选择用 Iframe 将 preview 页面直接嵌入编辑器画布当中，但 Iframe 有个弊端：由于 iframe 的限制原因，每次进入都是一次浏览器上下文重建、资源重新加载的过程，会存在部分资源重复加载引用的问题。 https://www.yuque.com/kuitos/gky7yw/gesexv
+
+-
+
+## craftjs 基础探索
+
+### 1.基本结构
+
+基本结构：
+
+- Editor、Frame 都是库内置的组件，Editor 处于最外层，定义了当前物料组件元素
+- Frame 是展示区域，展示的内容可以是来自 children，官网还提供了一个 data 字段，传入数据，Frame 会自动进行渲染，如果是 children 方式的话就需要前端自己渲染
+  ```js
+  <Frame data='{"ROOT":{"type":"div","isCanvas":true,"props":{},"parent":null,"displayName":"div","custom":{},"nodes":["node-sdiwzXkvQ","node-rGFDi0G6m","node-yNBLMy5Oj"]},"node-sdiwzXkvQ":{"type":{"resolvedName":"Card"},"props":{},"parent":"ROOT","displayName":"Card","custom":{},"_childCanvas":{"main":"canvas-_EEw_eBD_","second":"canvas-lE4Ni9oIn"}}}'>
+    <Element is={Container} canvas>
+      {' '}
+      // defines the Root Node
+      <h2>Drag me around</h2>
+      <MyComp text="You can drag me around too" />
+      <Element is="div" style={{ background: '#333' }}>
+        <p>Same here</p>
+      </Element>
+    </Element>
+  </Frame>
+  ```
+- SettingPanel、ComponentPanel 是自己需要处理的组件，分别是属性编排区、组件选择区
+
+```js
+import { Editor, Frame } from '@craftjs/core';
+
+const App = () => {
+  return (
+    <Editor
+      resolver={{ Button, Text }} // 传入物料组件，必传
+      enabled={true} // 控制是否可编辑，可以不传
+      onRender={RenderNode} // 选中组件时候控制显示组件名称等信息，自定义的，不传就不显示
+    >
+      <ComponentPanel />
+      <Frame>
+        <Text>我是需要显示的Text组件</Text>
+      </Frame>
+      <SettingPanel />
+    </Editor>
+  );
+};
+```
+
+### 2.物料组件如何写
+
+```js
+const ExampleComponent = ({ enabled, text }) => {
+  const {
+    connectors: { connect, drag },
+    actions: { setProp },
+  } = useNode();
+
+  return (
+    <div ref={connect}>
+      <div>Hi world</div>
+      <a ref={drag}>Drag me to move this component</a>
+      <button
+        onClick={(e) => {
+          setProp((props) => {
+            props.enabled = !props.enabled;
+          });
+        }}
+      >
+        Toggle
+      </button>
+
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => {
+          setProp((props) => {
+            props.text = e.target.value;
+          }, 500);
+        }}
+      />
+    </div>
+  );
+};
+```
+
+### 3.属性编排区如何获取数据？
+
+前面物料组件已经传入了 Editor 组件，那么我们就可以用到 craftjs 库提供的 useEditor 方法获取到当前所选中的元素：
+
+```js
+import { useEditor } from '@craftjs/core';
+const { actions, selected, isEnabled } = useEditor((state, query) => {
+  const currentNodeId = query.getEvent('selected').last();
+  let selected;
+
+  if (currentNodeId) {
+    selected = {
+      id: currentNodeId,
+      name: state.nodes[currentNodeId].data.name,
+      settings:
+        state.nodes[currentNodeId].related &&
+        state.nodes[currentNodeId].related.settings,
+      isDeletable: query.node(currentNodeId).isDeletable(),
+    };
+  }
+
+  return {
+    selected,
+    isEnabled: state.options.enabled,
+  };
+});
+
+return (
+  // 1.渲染组件的属性
+  // 2.当更改属性值时，还需要更改预览区的数据
+  <div data-cy="settings-panel">
+    {selected.settings && React.createElement(selected.settings)}
+  </div>
+);
+```
+
+其中 settings 是在定义物料组件时就进行了编写：
+
+```js
+import { useNode } from '@craftjs/core';
+import {
+  Button as MaterialButton,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+} from '@material-ui/core';
+import React from 'react';
+
+export const Button = ({ size, variant, color, text, ...props }) => {
+  const {
+    connectors: { connect, drag },
+  } = useNode();
+  return (
+    <MaterialButton
+      ref={(ref) => connect(drag(ref))}
+      style={{ margin: '5px' }}
+      size={size}
+      variant={variant}
+      color={color}
+      {...props}
+    >
+      {text}
+    </MaterialButton>
+  );
+};
+
+export const ButtonSettings = () => {
+  const {
+    actions: { setProp },
+    props,
+  } = useNode((node) => ({
+    props: node.data.props,
+  }));
+
+  return (
+    <div>
+      <FormControl size="small" component="fieldset">
+        <FormLabel component="legend">Size</FormLabel>
+        <RadioGroup
+          defaultValue={props.size}
+          onChange={(e) => setProp((props) => (props.size = e.target.value))}
+        >
+          <FormControlLabel
+            label="Small"
+            value="small"
+            control={<Radio size="small" color="primary" />}
+          />
+          <FormControlLabel
+            label="Medium"
+            value="medium"
+            control={<Radio size="small" color="primary" />}
+          />
+          <FormControlLabel
+            label="Large"
+            value="large"
+            control={<Radio size="small" color="primary" />}
+          />
+        </RadioGroup>
+      </FormControl>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Variant</FormLabel>
+        <RadioGroup
+          defaultValue={props.variant}
+          onChange={(e) => setProp((props) => (props.variant = e.target.value))}
+        >
+          <FormControlLabel
+            label="Text"
+            value="text"
+            control={<Radio size="small" color="primary" />}
+          />
+          <FormControlLabel
+            label="Outlined"
+            value="outlined"
+            control={<Radio size="small" color="primary" />}
+          />
+          <FormControlLabel
+            label="Contained"
+            value="contained"
+            control={<Radio size="small" color="primary" />}
+          />
+        </RadioGroup>
+      </FormControl>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Color</FormLabel>
+        <RadioGroup
+          defaultValue={props.color}
+          onChange={(e) => setProp((props) => (props.color = e.target.value))}
+        >
+          <FormControlLabel
+            label="Default"
+            value="default"
+            control={<Radio size="small" color="default" />}
+          />
+          <FormControlLabel
+            label="Primary"
+            value="primary"
+            control={<Radio size="small" color="primary" />}
+          />
+          <FormControlLabel
+            label="Secondary"
+            value="secondary"
+            control={<Radio size="small" color="primary" />}
+          />
+        </RadioGroup>
+      </FormControl>
+    </div>
+  );
+};
+
+export const ButtonDefaultProps = {
+  size: 'small',
+  variant: 'contained',
+  color: 'primary',
+  text: 'Click me',
+};
+
+Button.craft = {
+  props: ButtonDefaultProps,
+  related: {
+    settings: ButtonSettings,
+  },
+};
+```
+
+### 4.页面展示的可拖拽的组件
+
+首先要搞清楚一个概念，页面展示的物料组件没，和传入 Editor 组件里的可以不一样，页面展示的可以在后者的基础上进行再次封装，在拖拽结束之后，预览区产生什么组件可以用`connectors.create`进行定义。
+以下代码，MaterialButton 是页面展示的可拖拽组件，拖拽结束之后就可以生成已在`Editor`组件注册的`Button`物料组件
+
+```js
+import { useEditor } from '@craftjs/core';
+
+const { connectors } = useEditor();
+
+<MaterialButton
+  ref={(ref) => connectors.create(ref, <Button text="Click me" size="small" />)}
+  variant="contained"
+  data-cy="toolbox-button"
+>
+  Button
+</MaterialButton>;
+```
+
+### step6.安装 craftjs
 
 根目录执行：
 
@@ -164,4 +448,4 @@ pnpm install turbo  -D
 pnpm add @craftjs/core -w
 ```
 
-### step2.
+## 前后端交互

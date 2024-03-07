@@ -161,6 +161,7 @@ export default defineConfig({
             { title: '基础', link: '/project/performance' },
             { title: '性能测试', link: '/project/performance-tool' },
             { title: '请求和响应优化', link: '/project/http-performance' },
+            { title: '输入URL到页面展示', link: '/project/url-loaded' },
           ],
         },
       ],
@@ -205,15 +206,15 @@ export default defineConfig({
             { title: '实现简易版React', link: '/frame/react-handle' },
           ],
         },
-        {
-          title: '《Flutter框架》',
-          children: [
-            { title: '介绍', link: '/frame/flutter-basic' },
-            { title: '基础知识', link: '/frame/flutter-entry' },
-            { title: '常用库', link: '/frame/flutter-dio' },
-            { title: '开发一个通用APP', link: '/frame/flutter-app' },
-          ],
-        },
+        // {
+        //   title: '《Flutter框架》',
+        //   children: [
+        //     { title: '介绍', link: '/frame/flutter-basic' },
+        //     { title: '基础知识', link: '/frame/flutter-entry' },
+        //     { title: '常用库', link: '/frame/flutter-dio' },
+        //     { title: '开发一个通用APP', link: '/frame/flutter-app' },
+        //   ],
+        // },
       ],
       '/lowcode': [
         {
