@@ -1,14 +1,12 @@
-一般为了安全起见，用户的密码都是以秘文形式存储在数据库里的。对于加密形式我们可以参考这个电子书 [astaxie / \*\*\*\*build-web-application-with-golang / 9.5 存储密码](https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/09.5.md)。\*\*
+一般为了安全起见，用户的密码都是以秘文形式存储在数据库里的。对于加密形式我们可以参考这个电子书 [astaxie /build-web-application-with-golang / 9.5 存储密码](https://github.com/astaxie/build-web-application-with-golang/blob/master/zh/09.5.md)。
 
 这里推荐两种方案：
 
-- \***\*bcrypt 方案：\*\***https://pkg.go.dev/golang.org/x/crypto/bcrypt （bcrypt 是比较通用方案，一般的语言库都有这个方案）
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b976eda3-4718-4fa9-86e5-17d356f27890/Untitled.png)
+- bcrypt 方案：https://pkg.go.dev/golang.org/x/crypto/bcrypt （bcrypt 是比较通用方案，一般的语言库都有这个方案）
+  ![](./img/bcypt.png)
 
 - **scrypt 方案（文章的专家方案）**：https://pkg.go.dev/golang.org/x/crypto/scrypt
-
-这个方案目前在区块链领域用的比较多，这个算法目前几乎是不可能被破解的，但目前中文资料比较少
+  这个方案目前在区块链领域用的比较多，这个算法目前几乎是不可能被破解的，但目前中文资料比较少
 
 我们这里采用第二种方案，这是内置库，也不用安装。
 
@@ -64,8 +62,7 @@ func CreateUser(data *User) int {
 ## 方法 2：使用 gorm 的钩子函数
 
 golang 不是面向对象的编程语言，所以没有类的概念，也没有继承的概念，但是 golang 可以利用结构体来实现类似的概念。
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d492cbd2-27c7-462a-aa4c-0d8f2afc411e/Untitled.png)
+![](./img/gorm-db.png)
 
 ### 修改 model/User.go 文件的新增用户函数并编写 BeforeSave 函数
 

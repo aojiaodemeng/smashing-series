@@ -179,3 +179,38 @@ npm config set test:port 8000
 - 目前 node 默认的是如果 pacakage.json 没有定义 type 字段，则按照 commonJs 规范处理
 - node 官方建议包的开发者明确指定 package.json 中 type 字段的值
 - 无论 package.json 中的 type 字段为何值，.mjs 的文件都按照 es 模块来处理，.cjs 的文件都按照 commonJs 模块来处理
+
+## npm run xx 命令执行后发生了什么
+
+假设`package.json`文件部分内容如下：
+
+```json
+{
+  "name": "npm-test",
+  "scripts": {
+    "serve": "vue-cli-service serve"
+  }
+}
+```
+
+### 1.为什么不能直接执行`xxx serve`
+
+当我们执行`npm run serve`时，就相当于执行了了右边的`vue-cli-service serve`，但是为什么不能直接执行`vue-cli-service serve`命令呢？
+
+```zsh
+vue-cli-service serve  // 直接执行这个命令会返回报错信息：zsh:command not found vue-cli-service
+```
+
+当使用命令`npm i @vue-cli-service`安装`vue-cli-service`依赖包后，我们会在`node_modules`文件夹下的`.bin`文件夹会有相应文件`vue-cli-service`，文件右侧会有个小箭头，代表这个文件是软链接脚本文件。
+
+执行`npm run serve`命令就相当于执行了`./node_modules/.bin/vue-cli-service serve`，而如果直接执行`vue-cli-service serve`命令就会找不到对应的软链接脚本文件。
+
+![](./img/bin-soft.png)
+
+全局搜索`vue-cli-service`，可以在`package-lock.json`文件找到指令的对应关系，其软链接脚本文件执行右侧的 JS 文件。
+![](./img/bin-soft-this.png)
+
+### 2.总结
+
+![](./img/npm-run-xx.png)
+当执行`npm run xx`时，就会在`node_modules`文件夹里找到对应的软链接脚本文件，再找到对应的 js 文件执行。

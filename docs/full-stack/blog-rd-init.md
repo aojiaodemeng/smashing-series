@@ -6,11 +6,12 @@ github 创建仓库，本地克隆下来，然后用 goland 打开项目。
 
 ## 2.设置包管理，配置[goproxy.io](http://goproxy.io/)代理
 
+![](./img/goproxy.png)
+
 ## 3.添加运行/调试配置
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f05e96c5-b497-449a-8202-b46285d30568/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2855b417-1155-4518-b346-733be1631f7e/Untitled.png)
+![](./img/gouild.png)
+![](./img/godirectory.png)
 
 ## 4.添加主文件并初始化项目
 
@@ -121,8 +122,7 @@ func LoadData(file *ini.File) {
 ### 7-4、测试路由接口
 
 在 gin 官网给出了简单 demo，我们可以根据 demo 测试下路由接口：
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d65b188b-73b6-4e2f-a6ab-d177d932edc3/Untitled.png)
+![](./img/go-demo.png)
 
 新建 routes/router.go 文件，代码如下：
 
@@ -184,7 +184,7 @@ func InitRouter() {
 ```
 
 然后按 build 按钮运行：
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3111708d-b169-4b0f-b99c-ca700c811be3/Untitled.png)
+![](./img/go-build-btn.png)
 
 运行结果出现下面的打印信息就表示成功啦：
+![](./img/go-build-success.png)

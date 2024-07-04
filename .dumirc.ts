@@ -76,32 +76,19 @@ export default defineConfig({
             { title: 'HTML', link: '/cheatsheet/html' },
             { title: 'CSS', link: '/cheatsheet/css' },
             { title: 'ECMAScript', link: '/cheatsheet/es' },
-            { title: 'Asynchronous Programming', link: '/cheatsheet/ap' },
-          ],
-        },
-        {
-          title: 'ECMAScript',
-          children: [
-            { title: '箭头函数', link: '/cheatsheet/es-arrow' },
-            { title: '迭代器', link: '/cheatsheet/es-iterator' },
-            { title: '异步编程', link: '/cheatsheet/es-async' },
           ],
         },
         {
           title: 'JavaScript',
           children: [
-            { title: '数据类型', link: '/cheatsheet/js-data' },
-            { title: '异步编程', link: '/' },
+            { title: '原型链', link: '/cheatsheet/prototype' },
+            { title: '异步编程', link: '/cheatsheet/async' },
             { title: '错误监控与代码调试', link: '/cheatsheet/js-error' },
             { title: '手写Promise', link: '/cheatsheet/js-promise' },
-          ],
-        },
-        {
-          title: 'JavaScript',
-          children: [
-            { title: '数据类型', link: '/cheatsheet/js-data' },
-            { title: '异步编程', link: '/' },
-            { title: '错误监控与代码调试', link: '/cheatsheet/js-error' },
+            {
+              title: 'Promise并发控制',
+              link: '/cheatsheet/js-promise-concurrency',
+            },
           ],
         },
         {
@@ -120,6 +107,7 @@ export default defineConfig({
             { title: '纯函数与柯里化', link: '/cheatsheet/fp-curry' },
             { title: '函数组合', link: '/cheatsheet/fp-combine' },
             { title: '函子', link: '/cheatsheet/fp-functor' },
+            { title: '相关面试题', link: '/cheatsheet/fp-interview' },
           ],
         },
         {
@@ -164,6 +152,23 @@ export default defineConfig({
             { title: '输入URL到页面展示', link: '/project/url-loaded' },
           ],
         },
+        {
+          title: 'Devops',
+          children: [
+            {
+              title: 'Github Actions自动将静态站点部署到云服务器',
+              link: '/project/cicd',
+            },
+            {
+              title: '前端面试题',
+              link: '/project/interview',
+            },
+            {
+              title: '前端错误监控系统',
+              link: '/project/monitor',
+            },
+          ],
+        },
       ],
       '/network': [
         {
@@ -171,6 +176,8 @@ export default defineConfig({
           children: [
             { title: 'HTTP基础', link: '/network/base' },
             { title: '前端缓存', link: '/network/cache' },
+            { title: '前端安全', link: '/network/safe' },
+            { title: '垃圾回收机制', link: '/network/garbage-collection' },
           ],
         },
         {

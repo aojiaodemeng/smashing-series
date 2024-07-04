@@ -1,35 +1,30 @@
 主要内容：同步模式和异步模式的调用差异（reject、catch、unhandleRejection）
 
-# 同步模式
+## 同步模式与异步模式
 
-同步模式不是指同时执行，而是排队执行任务
+- 同步模式：同步模式不是指同时执行，而是排队执行任务
+- 异步模式如下图：
+  ![](./img/async_mode.png)
+  结果如下：
 
-# 异步模式
+  ```js
+  global begin
+  global end
 
-异步模式如下图：
+  timer2 invoke
+  timer1 invoke
+  inner invoke
+  ```
 
-<!-- ![](./img/async_mode.png) -->
-
-结果如下：
-
-```js
-global begin
-global end
-
-timer2 invoke
-timer1 invoke
-inner invoke
-```
-
-# 回调函数
+## 回调函数
 
 回调函数是所有异步编程方案的根基
 
-# promise 概述
+## promise
 
 直接使用传统回调方式去完成复杂的异步流程，会产生回调地狱的问题，为解决这一问题，commonjs 社区提出了 promise 的规范，promise 在 es2015 中别标准化，成为语言规范
 
-# promise 的基本使用
+### promise 的基本使用
 
 ```js
 const promise = new Promise(function (resolve, reject) {
@@ -48,7 +43,7 @@ promise.then(
 console.log('end');
 ```
 
-# promise 方法的 ajax
+### promise 方法的 ajax
 
 ```js
 function ajax(url) {
@@ -76,7 +71,7 @@ ajax('/api/user.json').then(
 );
 ```
 
-# promise 常见误区
+### promise 常见误区
 
 promise 本质上也是使用回调函数定义的异步任务结束后所需要执行的任务
 
@@ -120,14 +115,14 @@ ajax('/api/user.json')
   })
 ```
 
-# promise 链式调用
+### promise 链式调用
 
 - promise 对象的 then 方法会返回一个全新的 promise 对象
 - 后面的 then 方法就是在为上一个 then 返回的 promise 注册回调
 - 前面 then 方法中回调函数的返回值会作为后面 then 方法回调的参数
 - 如果回调中返回的是 promise，那后面 then 方法的回调会等待它的结果
 
-# promise 的异常处理以及差异——catch、reject、unhandledrejection
+### promise 的异常处理以及差异——catch、reject、unhandledrejection
 
 ```js
 // 1、reject
@@ -216,15 +211,15 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 ```
 
-# promise 静态方法
+### promise 静态方法
 
 promise.resolve() ——将一个值转化为一个 promise 对象
 
-# promise 并行执行——promise.all 与 promise.race
+### promise 并行执行——promise.all 与 promise.race
 
 对于 promise.all，需要任务都成功，这个并行的任务才算成功，而对于 promise.race 只需要成功一个。
 
-# promise 执行时序/宏任务 vs 微任务
+### promise 执行时序/宏任务 vs 微任务
 
 目前绝大多数异步调用都是作为宏任务执行。
 微任务：
@@ -237,7 +232,7 @@ promise.resolve() ——将一个值转化为一个 promise 对象
 - 1.定时器（setInterval 和 setTimeout）
   https://www.cnblogs.com/fangdongdemao/p/10262209.html
 
-# Generator 异步方案 1——回顾 Generator 函数
+## Generator 异步方案 1——回顾 Generator 函数
 
 相比于传统的回调方式，promise 处理异步调用最大的优点就是可以用链式调用解决回调嵌套的问题，但是这样还是会有大量的回调函数，虽然它们是相互独立的，下面说一下 Generator。
 认识，ES2015 提供的 Generator——使异步调用再次回到扁平化
@@ -333,24 +328,37 @@ co(main);
 
 上述代码中的 co 函数功能有第三方库：https://github.com/tj/co
 
-# Generator 异步方案 2（常用）——async/await 语法糖
+## Generator 异步方案 2（常用）——async/await 语法糖
 
-async function main () {
-try{
-const users = await ajax('/api/users.json')
-console.log(users)
+```js
+async function main() {
+  try {
+    const users = await ajax('/api/users.json');
+    console.log(users);
 
-    const posts = await ajax('/api/users.json')
-    console.log(posts)
-
-} catch(e) {
-console.log(e)
+    const posts = await ajax('/api/users.json');
+    console.log(posts);
+  } catch (e) {
+    console.log(e);
+  }
 }
-}
 
-const promise = main()
-promise.then(()=>{
-console.log('all compl')
-})
+const promise = main();
+promise.then(() => {
+  console.log('all compl');
+});
+```
 
-# async
+## async
+
+## 协程
+
+## 面试题：promise 控制并发请求
+
+参考文档：
+
+- [Promise 对象池](https://blog.csdn.net/bu_leng/article/details/131204325)
+- [饥人谷](https://wiki.jirengu.com/doku.php?id=javascript_%E5%B9%B6%E5%8F%91)
+- [LeetCode-2636.Promise 对象池](https://leetcode.cn/problems/promise-pool/description/)
+
+原题大意是给你一个异步函数数组 functions，和一个限制数 n，要求设计一个函数，用来执行数组 functions 中的所有异步函数，且最大并行执行数量不能超过 n。

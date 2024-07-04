@@ -13,12 +13,10 @@ go get -u github.com/dgrijalva/jwt-go
 ## 2.1 配置网站参数：`JwtKey`变量
 
 新增`JwtKey` 变量，值可以自定义：
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/94956d01-9e8c-4b3c-9d7c-3ac8d615c700/Untitled.png)
+![](./img/jwtkey.png)
 
 并在 setting.go 中导入：
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cbcf3800-0624-4cfb-bc7b-c5b681db4898/Untitled.png)
+![](./img/setting-jwtkey.png)
 
 # 三、errmsg.go 新增 code
 
@@ -67,8 +65,7 @@ type User struct {
 ```
 
 同时，需要将 Username 与 Password 绑定为 json，并加入 jwt.StandardClaims 内置结构体：
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/629a1ac0-2ea8-4487-9694-54a8f385ee46/Untitled.png)
+![](./img/jwtkey-tructor.png)
 
 ## 4-3.生成 token
 
@@ -96,7 +93,7 @@ func SetToken(username string) (string, int) {
 
 ## 4-3.验证 token
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ec8a9dca-d610-46d4-9bed-7baaf40c2913/Untitled.png)
+![](./img/token-check.png)
 
 ```js
 // 验证token

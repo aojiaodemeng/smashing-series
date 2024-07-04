@@ -95,7 +95,7 @@ console.timeEnd("Timer1");
   ![](../img/console_time.png)
   **比如分析哪种循环遍历方法最快?**
 
-                          for、forEach、for...of、for...in中，for 速度最快, 但可读性差；foreach 速度快, 可控制属性；for...of 比较慢, 但好用；for...in 比较慢, 最不好用
+                                                                                                          for、forEach、for...of、for...in中，for 速度最快, 但可读性差；foreach 速度快, 可控制属性；for...of 比较慢, 但好用；for...in 比较慢, 最不好用
 
 - 4.给 log 加点颜色
   log 有时候变得非常多，包含你自己的、一些第三方扩展或者浏览器的 logs。除了使用过滤器(filter)以外，你还可以使用颜色来更好地区分。
@@ -110,3 +110,115 @@ console.timeEnd("Timer1");
   比如某个事件未能注销，在页面上另一个元素上点击出现了 bug，一时不知道是哪里出现了问题。
 - 8.暂停 UI 在 Hover 状态下的展现结果：使用快捷键暂停脚本执行（F8 or command\）
 - 9.移动端：第三方插件模拟 console-eruda；针对第三方应用：内网穿透
+
+## 面试题：try-catch 捕捉不到异步里的错误
+
+:::info{title=捕捉错误}
+
+- 请找出下列操作中存在的异常
+- 并设法让外层的 try catch 能捕获到异常，打印出 log
+
+```js
+const doing = false;
+try {
+  setTimeout(() => {
+    doing = true;
+  }, 1000);
+} catch (e) {
+  console.log('Something went wrong');
+}
+```
+
+知识点：异步代码的回调里产生的异常是无法被 try catch 捕获的
+:::
+参考文档:
+
+- [前端中 try-catch 捕获不到哪些异常和常见错误](https://blog.csdn.net/qq_44732146/article/details/129962657)
+- [两个 try catch 引起的对 JS 事件循环的思考](https://zhuanlan.zhihu.com/p/531017667)
+- [来聊一聊 JavaScript 中的异常捕获](https://blog.cuiyongjian.com/fe/catch-error/)
+- [Callback Promise Generator Async-Await 和异常处理的演进](https://www.jianshu.com/p/78dfb38ac3d7)
+
+### 原因分析
+
+根本原因是 Event Loop，最外层的 try-catch 在`执行栈`中，按顺序执行，遇到 setTimeout 会将其推入到宏任务队列中，当开始执行 setTimeout 时，try-catch 已经执行完毕了，其上下文已经不存在，所以就无法被捕捉到。
+
+简单说来就是：try-catch 只能捕获到当前调用栈中的错误，而 `setTimeout` 作为一个宏任务将会脱离外层 try-catch 调用栈运行，导致无法被外层 try-catch 所捕获。
+
+- 永远不要在 macrotask 队列中抛出异常，因为 macrotask 队列脱离了运行上下文环境，异常无法被当前作用域捕获。
+
+### 为什么 try-catch 捕捉不到 promise 的构造函数里的错误？
+
+setTimeout 是异步的，可是 promise 的初始化是同步的，为什么也捕捉不到？
+
+```js
+const doing = false;
+try {
+  new Promise((resolve, reject) => {
+    doing = true;
+  });
+} catch (e) {
+  console.log('异步错误，能catch到么？'); // 不能捕捉到
+}
+```
+
+原因：promise 内部 已经加了 try catch 处理了异常，所以不能冒泡到外面。（要用 promise.catch）
+
+```js
+const doing = false;
+try {
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      doing = true;
+    });
+  });
+} catch (e) {
+  console.log('异步错误，能catch到么？'); // 也没有捕捉到
+}
+```
+
+原因：也是跟 Event Loop 有关
+
+### 为什么 async-await 可以捕捉到？
+
+async-await 是使用生成器、promise 和协程实现的,wait 操作符还存储返回事件循环之前的执行上下文，以便允许 promise 操作继续进行。当内部通知解决等待的承诺时，它会在继续之前恢复执行上下文。
+
+### 法 1:将 try-catch 放到 setTimeout 内部
+
+```js
+const doing = false;
+setTimeout(() => {
+  try {
+    doing = true;
+  } catch (e) {
+    console.log('Something went wrong');
+  }
+}, 1000);
+```
+
+### 法 2:将 try-catch 放到 then 内部（也捕捉不到，待定）
+
+```js
+const doing = false;
+try {
+  Promise.resolve().then(() => {
+    setTimeout(() => {
+      doing = true;
+    });
+  });
+} catch (e) {
+  console.log('Something went wrong');
+}
+```
+
+### 法 3:使用 async-await（也捕捉不到，待定）
+
+```js
+const doing = false;
+Promise.resolve()
+  .then(() => {
+    doing = true;
+  })
+  .catch((err) => {
+    console.log('Something went wrong');
+  });
+```

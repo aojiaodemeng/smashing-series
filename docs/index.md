@@ -9,7 +9,7 @@ hero:
 features:
   - title: 前端基础
     emoji: ✏️
-    link: /cheatsheet/es
+    link: /cheatsheet/html
     description: 前端基础（ES、JS、TS、CSS、HTML等）
   - title: 前端工程化
     emoji: 🍼
@@ -31,4 +31,8 @@ features:
     emoji: 🫘
     link: /full-stack
     description: Golang+Gin+Gorm+Mysql搭建通用网站后台系统
+  - title: 面试总结
+    emoji: 🫘
+    link: /interview/base
+    description: 面试过程中积累的一些问题
 ---

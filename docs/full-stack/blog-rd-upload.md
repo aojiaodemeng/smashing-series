@@ -15,22 +15,16 @@ gin 官网给出了上传文件的示例 demo。
 # 一、准备工作
 
 注册之后，先认证，认证之后就会有每月 10G 的免费空间。
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6600bdbb-469d-4271-b301-af095201af8c/Untitled.png)
+![](./img/qiniu1.png)
 
 然后新建一个空间：
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/61c62a0d-25e6-4364-b381-be613b125363/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5cf63762-f5b9-453c-afa6-893cfbccb3f6/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1ec6280a-fd9a-436a-8ec4-3dc969fb2032/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/91dbd238-410d-4521-a7af-d08eed109d9e/Untitled.png)
+![](./img/qiniu2.png)
+![](./img/qiniu3.png)
+![](./img/qiniu4.png)
+![](./img/qiniu5.png)
 
 创建密钥：
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9f99e26d-1e57-4dbb-a3fd-9535dcb2b3fb/Untitled.png)
+![](./img/qiniu6.png)
 
 # 二、业务代码
 
@@ -38,11 +32,9 @@ gin 官网给出了上传文件的示例 demo。
 
 ### config.ini 文件：
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/93b6ae5c-3c27-43af-b1bf-bc95d2bd3015/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f9687997-19c4-40f9-b961-ed10c340032f/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/28c64480-45d6-48df-83c2-1703c6e718d2/Untitled.png)
+![](./img/qiniu7.png)
+![](./img/qiniu8.png)
+![](./img/qiniu9.png)
 
 ### setting.go 文件：
 
@@ -72,7 +64,7 @@ func LoadQiniu(file *ini.File) {
 
 [Go SDK*SDK 下载*对象存储 - 七牛开发者中心](https://developer.qiniu.com/kodo/1238/go)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4b9daa9-4d20-4f30-9ce8-e91a7222f83d/Untitled.png)
+![](./img/qiniu10.png)
 
 ### 在 go.mod 文件里添加以下：
 
@@ -174,9 +166,7 @@ auth.POST('upload', v1.Upload);
 ## 六、测试
 
 先调用登陆接口获取到 token：
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e604f8ac-23ee-49c1-9cbb-ae73ea3940f6/Untitled.png)
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/9b91c3aa-1811-4063-8007-08f9313a1e90/Untitled.png)
-
+![](./img/qiniu-token-test.png)
+![](./img/qiniu-token-apipost.png)
 在七牛云控制台也可以看到上传的图片：
+![](./img/qiniu-image.png)

@@ -11,18 +11,17 @@ go get -u gorm.io/gen
 # 二、建立相关数据模型文件，配置
 
 model 文件夹下新增下面四个文件：
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/96ab7f6f-0917-48b1-a088-5e10a430bea0/Untitled.png)
+![](./img/db-model.png)
 
 其中，db.go 为数据库入口文件；其他是相关业务数据模型文件
 
 ## 1.编写 db 入口文件，根据官方文档连接 mysql 数据库
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5f0e60dd-aa9b-4e1f-be4c-8dfc79527628/Untitled.png)
+![](./img/db-connect-mysql.png)
 
 ## 2.维护连接池
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f87ba493-af93-4e03-9964-a90a1af54a72/Untitled.png)
+![](./img/db-gorm-chi.png)
 
 这里连接池设置了三个参数，因为 GORM 并不是直接连接我们的数据库，而是虚拟一个连接池，使用时再连接，所以这几个参数我们必须要设置一下。
 
@@ -37,7 +36,7 @@ r.Run(utils.HttpPort);
 
 ## 3.向数据库迁移模型
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f2541207-1b13-456f-b1f4-7c6076e756c5/Untitled.png)
+![](./img/db-auto-migrate.png)
 
 ```js
 
@@ -45,8 +44,7 @@ db.AutoMigrate(&User{},&Article{}, &Category{})  // 迁移我们自己创建的�
 ```
 
 另外，对于用模型建立的数据，会自动加复数，这边我们不需要复数形式
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b854bb96-aac4-4916-b783-a74a83805a8b/Untitled.png)
+![](./img/db-models.png)
 
 那么此时的 db.go 文件内容如下：
 
@@ -168,3 +166,5 @@ func main() {
 然后打开我们的 mysql 数据库，打开之后运行我们的项目。
 
 如果没有错误，就可以看到我们的数据库里就会自动创建我们的三张表格：
+
+![](./img/db-connect-success.png)

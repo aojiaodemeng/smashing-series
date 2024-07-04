@@ -264,23 +264,6 @@ for (const item of obj2) {
 
 > 总结：迭代器模式的意义核心就是对外提供统一遍历接口。
 
-## 异步编程 Asynchronous Programming
-
-There are lots of asynchronous programming methods in JS:
-
-| Method      | Introduction                                             | Advantage                   | Disadvantage    |
-| ----------- | -------------------------------------------------------- | --------------------------- | --------------- |
-| callback    | the foundation of all asynchronous programming scenarios | simply and high readability | “callback hell” |
-| promise     | fixed the problem of 'callback hell'                     |                             |                 |
-| generator   |                                                          |                             |                 |
-| async await |                                                          |                             |                 |
-
-### Promise
-
-### Generator
-
-### Async Await
-
 ## class 中 的 constructor 与 super 的理解
 
 ### constructor
@@ -320,3 +303,88 @@ new B(); // B
 
 [阮一峰-Class 的继承](https://es6.ruanyifeng.com/#docs/class-extends)
 [解读 es6 class 中 constructor 方法 和 super 的作用](https://blog.csdn.net/a419419/article/details/82772412)
+
+## class 类
+
+在 ES2015 之前，ECMAScript 都是定义函数以及函数的原型对象去实现类型，比如：
+
+```javascript
+// 实现一个Person的类型，先定义Person的函数作为构造函数，在构造函数中可以通过this访问当前的实例对象
+function Person(name) {
+  this.name = name;
+}
+// 如果要在所有的实例之间共享成员，可以借助prototype实现
+Person.prototype.say = function () {
+  console.log();
+};
+```
+
+而在 ES2015 之后，可以通过 class 关键字声明一个类型，这种独立定义类型的语法相比于函数的方式更易理解：
+
+```javascript
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  say() {
+    console.log();
+  }
+}
+const p = new Person();
+```
+
+### 静态方法与实例方法
+
+类中的方法分为两种：静态方法与实例方法。
+
+- 实例方法：通过类型构造实例对象去调用的方法
+- 静态方法：直接通过类型本身调用
+
+在 ES2015 之前，实现静态方法是直接在构造函数对象上挂载方法，因为在 js 中函数也是对象，可以添加一些方法和成员。而在 ES2015 中新增添加静态成员的 static 关键词，注意由于静态方法是挂载到类型上的，因此在静态方法内的 this 是不会指向某个实例对象，而是指向当前的类型。
+
+```javascript
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  say() {
+    console.log();
+  }
+  static create(name) {
+    return new Person(name);
+  }
+}
+const tom = new Person('tom');
+tom.say();
+```
+
+### 类的继承
+
+在 ES2015 之前，都是使用原型的方式去实现继承，而在 ES2015 中，新增了一个专门用于继承的关键词 extends。
+
+```javascript
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  say() {
+    console.log();
+  }
+}
+
+class Student extends Person {
+  constructor(name, number) {
+    super(name);
+    this.number = number;
+  }
+  hello() {
+    super.say();
+    console.log(this.number);
+  }
+}
+const s = new Person('jack', 100);
+s.say();
+```

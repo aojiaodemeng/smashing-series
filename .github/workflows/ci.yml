@@ -1,7 +1,7 @@
-name: CI
+name: 推送博客到云服务器
 
 on:
-  push:
+  push: # push 代码的时候 哪个分支会受到影响
     branches:
       - main
       - master # default branch
@@ -9,23 +9,23 @@ on:
     branches:
       - main
       - master
-
+# 推送之后执行一系列的任务
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: 获取代码 | Checkout repository
+        uses: actions/checkout@v2 #使用action库 action/checkout获取代码
         with:
           fetch-depth: 0 # Keep `0` for dumi last updated time feature
-      - name: Install dependencies
+      - name: 安装依赖 | Install dependencies
         run: |
           npm install
-      - name: Building work
+      - name: 打包 | Building work
         run: |
           npm run build
         # 文档编译命令，如果是 react 模板需要修改为 npm run docs:build
-      - name: Deploy to github pages
+      - name: 部署 | Deploy to github pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
