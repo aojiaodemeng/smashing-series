@@ -16,9 +16,13 @@ features:
     link: /project/react-vdom
     description: 前端架构系列
   - title: 前端框架
-    emoji: 🌍
+    emoji: 🔍
     link: /frame/vue3-design
-    description: React、Vue3
+    description: React、Vue3、Flutter
+  - title: 前端高阶玩法
+    emoji: 🧄
+    link: /webgl/webgl-init
+    description: WebGL+ThreeJs
   - title: 算法Algorithm
     emoji: 🍆
     link: /algorithm/base
@@ -32,7 +36,7 @@ features:
     link: /full-stack
     description: Golang+Gin+Gorm+Mysql搭建通用网站后台系统
   - title: 面试总结
-    emoji: 🫘
+    emoji: 🍎
     link: /interview/base
     description: 面试过程中积累的一些问题
 ---

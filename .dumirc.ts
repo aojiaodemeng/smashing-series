@@ -213,15 +213,31 @@ export default defineConfig({
             { title: '实现简易版React', link: '/frame/react-handle' },
           ],
         },
-        // {
-        //   title: '《Flutter框架》',
-        //   children: [
-        //     { title: '介绍', link: '/frame/flutter-basic' },
-        //     { title: '基础知识', link: '/frame/flutter-entry' },
-        //     { title: '常用库', link: '/frame/flutter-dio' },
-        //     { title: '开发一个通用APP', link: '/frame/flutter-app' },
-        //   ],
-        // },
+        {
+          title: '《Flutter框架》',
+          children: [
+            { title: '介绍', link: '/frame/flutter-basic' },
+            { title: '基础知识', link: '/frame/flutter-entry' },
+            { title: '常用库', link: '/frame/flutter-dio' },
+            { title: '开发一个通用APP', link: '/frame/flutter-app' },
+          ],
+        },
+      ],
+      '/webgl': [
+        {
+          title: 'WebGL',
+          children: [
+            { title: '一、WebGL简单使用', link: '/webgl/webgl-init' },
+            {
+              title: '二、多图形绘制和动画',
+              link: '/webgl/webgl-array-buffer',
+            },
+            {
+              title: '三、WebGL Shader',
+              link: '/webgl/shader',
+            },
+          ],
+        },
       ],
       '/lowcode': [
         {
