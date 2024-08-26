@@ -19,7 +19,7 @@ features:
     emoji: 🔍
     link: /frame/vue3-design
     description: React、Vue3、Flutter
-  - title: 前端高阶玩法
+  - title: WebGL
     emoji: 🧄
     link: /webgl/webgl-init
     description: WebGL+ThreeJs
