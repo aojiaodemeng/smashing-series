@@ -192,6 +192,26 @@ function curry(func) {
 }
 ```
 
+### rest 和 arguments 区别
+
+```js
+//arguments
+function fn() {
+  arguments.push('hello word');
+  console.log(arguments); //报错: arguments.push is not a function at fn
+}
+fn([1, 2, 3, 4]);
+
+//rest
+function fn1(...a) {
+  a[0].push('hello word');
+  console.log(a); //[1, 2, 3, 4, 5, 'hello word']
+}
+fn1([1, 2, 3, 4, 5]);
+```
+
+arguments 报错的原因是因为 arguments 返回的是一个伪数组，它没有数组的属性和方法，因此会出现报错。而 rest 返回的是一个数组，可以使用数组的属性和方法。
+
 ## 举个例子
 
 ```js
